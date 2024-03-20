@@ -1,0 +1,15 @@
+<form action="/search" method="get">
+  <input type="text" name="q" placeholder="Search for a movie">
+  <input type="submit" value="Search">
+</form>
+
+<h2>My Watchlist</h2>
+<ul>
+  <% if cookies[:watchlist] %>
+    <% cookies[:watchlist].each do |movie_id, title| %>
+      <li><%= title %></li>
+    <% end %>
+  <% else %>
+    <li>No movies in your watchlist</li>
+  <% end %>
+</ul>
