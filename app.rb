@@ -9,20 +9,10 @@ require 'net/http'
 
 # Set up API base URL and API key
 API_BASE_URL = 'https://api.themoviedb.org/3'
-API_TOKEN = ENV.fetch("THEMOVIEDB_TOKEN")
+API_KEY = ENV.fetch("THEMOVIEDB_KEY")
 
 #begin
 url = URI("https://api.themoviedb.org/3/search/movie?query=brother&include_adult=false&language=en-US&page=1")
-
-http = Net::HTTP.new(url.host, url.port)
-http.use_ssl = true
-
-request = Net::HTTP::Get.new(url)
-request["accept"] = 'application/json'
-request["Authorization"] = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlODM1MTk3ZWQ3YWQyNzY0MDJmN2NkMWI1Y2E3MWY5ZCIsInN1YiI6IjY1ZmFmODkyMDQ3MzNmMDE0YWU1Y2RlNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.et0i1ZM0aai2TyLv9wtlDAS1bFSjXW_lfVYn-Wb-wzU'
-
-response = http.request(request)
-puts response.read_body
 #end
 
 # Home route
@@ -64,7 +54,14 @@ end
 
 # Helper method to search movies using TMDb API
 def search_movies(query)
-  response = HTTP.get("#{API_BASE_URL}/search/movie?api_key=#{API_KEY}&query=#{query}")
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+
+request = Net::HTTP::Get.new(url)
+
+  response = HTTP.get("#{API_BASE_URL}/search/movie?&query=#{query}&include_adult=false&language=en-US&page=1")
+  request["accept"] = 'application/json'
+  request["Authorization"] = 'Bearer #{API_KEY}'
   if response.success?
     return JSON.parse(response.body)['results']
   else
