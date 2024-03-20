@@ -2,7 +2,9 @@
 <ul>
   <% @results.each do |movie| %>
     <li>
-      <%= movie['title'] %>
+      <h3><%= movie['title'] %></h3>
+      <p><strong>Release Date:</strong> <%= movie['release_date'] %></p>
+      <p><strong>Overview:</strong> <%= movie['overview'] %></p>
       <% unless cookies[:watchlist] && cookies[:watchlist][movie['id'].to_s] %>
         <form action="/add_to_watchlist" method="post" style="display:inline;">
           <input type="hidden" name="movie_id" value="<%= movie['id'] %>">

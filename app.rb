@@ -2,69 +2,55 @@ require "sinatra"
 require "sinatra/reloader"
 require "sinatra/cookies"
 require "http"
-require 'uri'
-require 'net/http'
+require "json"
 
-
-
-# Set up API base URL and API key
-API_BASE_URL = 'https://api.themoviedb.org/3'
-API_KEY = ENV.fetch("THEMOVIEDB_KEY")
-
-#begin
-url = URI("https://api.themoviedb.org/3/search/movie?query=brother&include_adult=false&language=en-US&page=1")
-#end
+api_key = ENV.fetch("THEMOVIEDB_KEY")
 
 # Home route
-get '/' do
-  erb:index
+get("/") do
+  erb(:index)
 end
 
 # Search route
-get '/search' do
+get("/search") do
   @query = params[:q]
-  if @query
-    @results = search_movies(@query)
-  end
-  erb :search
+  query_sub = params[:q].gsub(" ", "+")
+  search_url = "https://api.themoviedb.org/3/search/movie?api_key=#{api_key}&query=#{query_sub}"
+  raw_response = HTTP.get(search_url)
+  parsed_response = JSON.parse(raw_response)
+  @results = parsed_response["results"]
+  erb(:search)
 end
 
+
 # Add movie to watchlist
-post '/add_to_watchlist' do
+post("/add_to_watchlist") do
   movie_id = params[:movie_id]
   title = params[:title]
-  cookies[:watchlist] ||= {}
-  cookies[:watchlist][movie_id] = title
+    
+  # Deserialize the watchlist from JSON or initialize an empty Hash
+  watchlist = cookies.fetch('watchlist', '{}')
+  watchlist = JSON.parse(watchlist)
+  
+  # Add the new movie to the watchlist
+  watchlist[movie_id] = title
+  
+  # Serialize the updated watchlist back to JSON and store in cookies
+  cookies.store('watchlist', watchlist.to_json)
+  
   redirect back
 end
 
 # Remove movie from watchlist
-post '/remove_from_watchlist' do
+post("/remove_from_watchlist") do
   movie_id = params[:movie_id]
   cookies[:watchlist].delete(movie_id)
   redirect back
 end
 
 # Mark movie as watched
-post '/mark_as_watched' do
+post("/mark_as_watched") do
   movie_id = params[:movie_id]
   cookies[:watchlist][movie_id] += ' (watched)'
   redirect back
-end
-
-# Helper method to search movies using TMDb API
-def search_movies(query)
-http = Net::HTTP.new(url.host, url.port)
-http.use_ssl = true
-
-request = Net::HTTP::Get.new(url)
-
-  response = HTTP.get("#{API_BASE_URL}/search/movie?&query=#{query}&include_adult=false&language=en-US&page=1")
-  request["accept"] = 'application/json'
-  request["Authorization"] = 'Bearer #{API_KEY}'
-  if response.success?
-    return JSON.parse(response.body)['results']
-  else
-    return []
-  end
 end
