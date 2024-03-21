@@ -3,15 +3,31 @@
   <input type="submit" value="Search">
 </form>
 
-<h2>My Watchlist</h2>
-<ul>
-  <% if cookies[:watchlist] %>
-    <% cookies[:watchlist].each do |movie_id, title| %>
-      <li><%= title %></li>
-    <% end %>
+<h2>Your Watchlist</h2>
+  <% watchlist = JSON.parse(cookies['watchlist'] || '{}') %>
+  <% if watchlist.empty? %>
+    <p>No movies in your watchlist</p>
   <% else %>
-    <li>No movies in your watchlist</li>
+    <ul>
+      <% watchlist.each do |movie_id, title| %>
+        <li>
+          <%= title %>
+          <form action="/remove_from_watchlist" method="post" style="display:inline;">
+            <input type="hidden" name="movie_id" value="<%= movie_id %>">
+            <input type="submit" value="Remove">
+          </form>
+          <form action="/mark_as_watched" method="post" style="display:inline;">
+            <input type="hidden" name="movie_id" value="<%= movie_id %>">
+            <input type="submit" value="Mark as Watched">
+          </form>
+        </li>
+      <% end %>
+    </ul>
   <% end %>
-</ul>
 
-
+  <h2>Add new movies</h2>
+  <form action="/search" method="get">
+    <label for="search">Search:</label>
+    <input type="text" id="search" name="q">
+    <input type="submit" value="Search">
+  </form>
