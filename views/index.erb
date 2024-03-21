@@ -1,8 +1,3 @@
-<form action="/search" method="get">
-  <input type="text" name="q" placeholder="Search for a movie">
-  <input type="submit" value="Search">
-</form>
-
 <h2>Your Watchlist</h2>
   <% watchlist = JSON.parse(cookies['watchlist'] || '{}') %>
   <% if watchlist.empty? %>
@@ -11,7 +6,8 @@
     <ul>
       <% watchlist.each do |movie_id, title| %>
         <li>
-          <%= title %>
+          <a href="https://www.themoviedb.org/movie/<%= movie_id %>" target="_blank">
+          <%= title %></a>
           <form action="/remove_from_watchlist" method="post" style="display:inline;">
             <input type="hidden" name="movie_id" value="<%= movie_id %>">
             <input type="submit" value="Remove">
