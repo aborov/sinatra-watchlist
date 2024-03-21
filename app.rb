@@ -16,6 +16,7 @@ end
 get("/search") do
   @query = params[:q]
   query_sub = params[:q].gsub(" ", "+")
+  api_key = ENV.fetch("THEMOVIEDB_KEY")
   search_url = "https://api.themoviedb.org/3/search/movie?api_key=#{api_key}&query=#{query_sub}"
   raw_response = HTTP.get(search_url)
   parsed_response = JSON.parse(raw_response)
@@ -53,7 +54,8 @@ end
 
 # Fetching poster URL from TMDb
 def fetch_poster_url(movie_id)
-  url = "#{API_BASE_URL}/movie/#{movie_id}?api_key=#{api_key}"
+  api_key = ENV.fetch("THEMOVIEDB_KEY")
+  url = "https://api.themoviedb.org/3/movie/#{movie_id}?api_key=#{api_key}"
   response = HTTP.get(url)
   parsed_response = JSON.parse(response.to_s)
   poster_path = parsed_response["poster_path"]
