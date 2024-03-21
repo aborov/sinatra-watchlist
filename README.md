@@ -1,18 +1,28 @@
-# sinatra-template
+# Movie Watchlist Web App
 
-Use this repository to create new Sinatra apps. 
+## Description
+The Movie Watchlist Web App is a simple web application built using Ruby Sinatra framework. It allows users to search for movies, add them to their watchlist, mark them as watched, and remove them from the watchlist.
 
-Optionally, to use `ActiveRecord` for database operations, add to the `app.rb`:
+## Features
+- Search for movies using the TMDb (The Movie Database) API.
+- Add movies to a watchlist.
+- Mark movies as watched.
+- Remove movies from the watchlist.
+- View movie details such as title, release date, and overview.
+- Links to view movies on TMDb for more information.
 
-```ruby
-require "sinatra/activerecord"
-```
+## How to Use
+1. Clone this repository to your local machine.
+2. Install the necessary dependencies by running `bundle install` in your terminal.
+3. Set up your TMDb API key as an environment variable named `THEMOVIEDB_KEY`.
+4. Start the application by running `ruby app.rb` in your terminal.
+5. Access the web app by visiting `http://localhost:4567` in your web browser.
+6. Use the search bar to find movies and add them to your watchlist.
+7. View and manage your watchlist by navigating to the corresponding section.
 
-And in the `config/environment.rb` file add this code block:
-
-```ruby
-configure do
-  # setup a database connection
-  set(:database, { adapter: "sqlite3", database: "db/development.sqlite3" })
-end
-```
+## Technologies Used
+- Ruby
+- Sinatra (Ruby web framework)
+- HTML
+- CSS
+- TMDb API
