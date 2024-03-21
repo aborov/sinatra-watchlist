@@ -80,7 +80,7 @@ GEM
       coderay (~> 1.1)
       method_source (~> 1.0)
     public_suffix (5.0.4)
-    puma (6.4.2)
+    puma (5.6.8)
       nio4r (~> 2.0)
     racc (1.6.2)
     rack (2.2.8)
@@ -171,7 +171,7 @@ DEPENDENCIES
   grade_runner
   i18n
   pry
-  puma (~> 6.0)
+  puma (~> 5.0)
   rack
   rackup
   rspec

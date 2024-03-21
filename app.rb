@@ -53,7 +53,7 @@ end
 
 # Fetching poster URL from TMDb
 def fetch_poster_url(movie_id)
-  url = "#{API_BASE_URL}/movie/#{movie_id}?api_key=#{API_KEY}"
+  url = "#{API_BASE_URL}/movie/#{movie_id}?api_key=#{api_key}"
   response = HTTP.get(url)
   parsed_response = JSON.parse(response.to_s)
   poster_path = parsed_response["poster_path"]
