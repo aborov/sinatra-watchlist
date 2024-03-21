@@ -4,6 +4,7 @@ require "sinatra/cookies"
 require "http"
 require "json"
 
+API_BASE_URL = "https://api.themoviedb.org/3"
 api_key = ENV.fetch("THEMOVIEDB_KEY")
 
 # Home route
@@ -23,7 +24,6 @@ get("/search") do
 end
 
 
-# Add movie to watchlist
 post("/add_to_watchlist") do
   movie_id = params[:movie_id]
   title = params[:title]
@@ -37,7 +37,7 @@ post("/add_to_watchlist") do
   # Serialize the updated watchlist back to JSON and store in cookies
   cookies.store('watchlist', watchlist.to_json)
   
-  redirect back
+  redirect "/"
 end
 
 # Remove movie from watchlist
@@ -70,4 +70,13 @@ post("/mark_as_watched") do
   cookies.store('watchlist', watchlist.to_json)
 
   redirect back
+end
+
+# Helper method to fetch poster URL from TMDb API
+def fetch_poster_url(movie_id)
+  url = "#{API_BASE_URL}/movie/#{movie_id}?api_key=#{API_KEY}"
+  response = HTTP.get(url)
+  parsed_response = JSON.parse(response.to_s)
+  poster_path = parsed_response["poster_path"]
+  poster_path ? "https://image.tmdb.org/t/p/w200#{poster_path}" : nil
 end

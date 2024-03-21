@@ -1,15 +1,94 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title>Movie Watchlist</title>
+    <style>
+        body {
+            background-color: #1f1f1f; /* Dark background */
+            color: #e0e0e0; /* Light text */
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-stripe {
+            background-color: #2c3e50; /* Dark Blue background for top stripe */
+            color: #ffffff; /* White text color */
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .top-stripe h1 {
+            margin: 0;
+        }
+
+        .main-content {
+            margin: 20px; /* Add margin to the main content */
+        }
+
+        h1, h2, h3 {
+            color: #ff9800; /* Orange headings */
+        }
+
+        ul {
+            list-style-type: none; /* Remove bullet points from lists */
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 20px;
+        }
+
+        .movie-title {
+            color: #ffffff; /* White movie titles */
+            font-weight: bold; /* Bold font for movie titles */
+            text-decoration: none; /* Remove underline from links */
+        }
+
+        .movie-title:hover {
+            text-decoration: underline; /* Underline movie titles on hover */
+        }
+
+        .movie-title.watchlist {
+            color: #ff9800; /* Orange movie titles for watchlist */
+            font-weight: bold; /* Bold font for watchlist movie titles */
+        }
+
+        .movie-title.watchlist a {
+            color: #ff9800; /* Orange links for movie titles on watchlist */
+            text-decoration: none; /* Remove underlining from links */
+        }
+
+        .btn {
+            background-color: #009688; /* Teal buttons */
+            color: #ffffff; /* White text on buttons */
+            border: none;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background-color: #00796b; /* Darker teal on hover */
+        }
+    </style>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-  </head>
+</head>
 
+<body>
+    <div class="top-stripe">
+        <h1>Movie Watchlist</h1>
+    </div>
 
-  <body>
-    <h1>Movie Watchlist</h1>
-    <%= yield %>
-    
-  </body>
+    <div class="main-content">
+        <%= yield %>
+    </div>
+</body>
 </html>

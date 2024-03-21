@@ -1,29 +1,38 @@
-<h2>Your Watchlist</h2>
-  <% watchlist = JSON.parse(cookies['watchlist'] || '{}') %>
-  <% if watchlist.empty? %>
+<h2>Your watchlist</h2>
+<% watchlist = JSON.parse(cookies['watchlist'] || '{}') %>
+<% if watchlist.empty? %>
     <p>No movies in your watchlist</p>
-  <% else %>
+<% else %>
     <ul>
-      <% watchlist.each do |movie_id, title| %>
-        <li>
-          <a href="https://www.themoviedb.org/movie/<%= movie_id %>" target="_blank">
-          <%= title %></a>
-          <form action="/remove_from_watchlist" method="post" style="display:inline;">
-            <input type="hidden" name="movie_id" value="<%= movie_id %>">
-            <input type="submit" value="Remove">
-          </form>
-          <form action="/mark_as_watched" method="post" style="display:inline;">
-            <input type="hidden" name="movie_id" value="<%= movie_id %>">
-            <input type="submit" value="Mark as Watched">
-          </form>
-        </li>
-      <% end %>
+        <% watchlist.each do |movie_id, title| %>
+            <% poster_url = fetch_poster_url(movie_id) %>
+            <li style="display: flex; align-items: center; margin-bottom: 20px;">
+                <div style="margin-right: 20px;">
+                    <% if poster_url %>
+                        <img src="<%= poster_url %>" alt="<%= title %> Poster" style="width: 50px; height: auto;">
+                    <% else %>
+                        <p>No Poster Available</p>
+                    <% end %>
+                </div>
+                <div>
+                    <span class="movie-title watchlist"><a class="movie-link" href="https://www.themoviedb.org/movie/<%= movie_id %>" target="_blank"><%= title %></a></span>
+                    <form action="/remove_from_watchlist" method="post" style="display:inline;">
+                        <input type="hidden" name="movie_id" value="<%= movie_id %>">
+                        <button class="btn" type="submit">Remove</button>
+                    </form>
+                    <form action="/mark_as_watched" method="post" style="display:inline;">
+                        <input type="hidden" name="movie_id" value="<%= movie_id %>">
+                        <button class="btn" type="submit">Mark as Watched</button>
+                    </form>
+                </div>
+            </li>
+        <% end %>
     </ul>
-  <% end %>
+<% end %>
 
-  <h2>Add new movies</h2>
-  <form action="/search" method="get">
+<h2>Add new movies</h2>
+<form action="/search" method="get">
     <label for="search">Search:</label>
     <input type="text" id="search" name="q">
-    <input type="submit" value="Search">
-  </form>
+    <input type="submit" class="btn" value="Search">
+</form>

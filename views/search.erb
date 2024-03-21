@@ -1,21 +1,32 @@
-<a href="/">Back to Your Watchlist</a>
+<div style="margin-top: 20px;">
+        <a href="/" style="color: #ff9800; text-decoration: none;"><< Back to Your watchlist</a>
+</div>
 <h2>Search Results for "<%= @query %>"</h2>
 <ul>
   <% watchlist = cookies['watchlist'] || '{}' %>
   <% watchlist = JSON.parse(watchlist) %>
   <% @results.each do |movie| %>
-    <li>
-      <h3><%= movie['title'] %></h3>
-      <p><strong>Release Date:</strong> <%= movie['release_date'] %></p>
-      <p><strong>Overview:</strong> <%= movie['overview'] %></p>
-      <% unless watchlist[movie['id'].to_s] %>
+    <li style="display: flex; align-items: center; margin-bottom: 20px;">
+      <div style="margin-right: 20px;">
+        <% if movie['poster_path'] %>
+          <img src="https://image.tmdb.org/t/p/w200<%= movie['poster_path'] %>" alt="<%= movie['title'] %> Poster">
+        <% else %>
+          <p>No Poster Available</p>
+        <% end %>
+      </div>
+      <div>
+        <h3><%= movie['title'] %></h3>
+        <p><strong>Release Date:</strong> <%= movie['release_date'] %></p>
+        <p><strong>Overview:</strong> <%= movie['overview'] %></p>
         <form action="/add_to_watchlist" method="post" style="display:inline;">
           <input type="hidden" name="movie_id" value="<%= movie['id'] %>">
           <input type="hidden" name="title" value="<%= movie['title'] %>">
-          <input type="submit" value="Add to Watchlist">
+          <input type="submit" class="btn" value="Add to Watchlist">
         </form>
-      <% end %>
+      </div>
     </li>
   <% end %>
 </ul>
-<a href="/">Back to Your Watchlist</a>
+<div style="margin-top: 20px;">
+    <a href="/" style="color: #ff9800; text-decoration: none;"><< Back to Your watchlist</a>
+</div>
