@@ -7,7 +7,7 @@ gem "sinatra"
 gem "sinatra-contrib"
 
 # Use Puma as the app server
-gem "puma", "~> 6.0"
+gem "puma"
 gem "http"
 
 # use active record
