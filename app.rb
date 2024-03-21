@@ -23,20 +23,13 @@ get("/search") do
   erb(:search)
 end
 
-
+# Add movie to the watchlist
 post("/add_to_watchlist") do
   movie_id = params[:movie_id]
   title = params[:title]
-    
-  # Deserialize the watchlist from JSON or initialize an empty Hash
   watchlist = JSON.parse(cookies['watchlist'] || '{}')
-  
-  # Add the new movie to the watchlist
   watchlist[movie_id] = title
-  
-  # Serialize the updated watchlist back to JSON and store in cookies
   cookies.store('watchlist', watchlist.to_json)
-  
   redirect "/"
 end
 
